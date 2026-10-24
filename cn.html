@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart College Network | Access Control & Threat Monitoring</title>
+
+  <style>
+    /* ========== 1. VARIABLES & RESET ========== */
+    :root {
+      --bg: #080d19;
+      --panel: #10192b;
+      --panel2: #141f34;
+      --line: #273650;
+      --txt: #edf3ff;
+      --muted: #91a3c1;
+      --blue: #69a8ff;
+      --cyan: #4be1d0;
+      --green: #55dfa0;
+      --red: #ff7088;
+      --amber: #ffd166;
+      --purple: #b59aff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 8% 0%, #172c4c 0, transparent 38%), var(--bg);
+      color: var(--txt);
+      font: 14px/1.5 Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+
+    /* ========== 2. HEADER ========== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 19px 3.5vw;
+      border-bottom: 1px solid var(--line);
+      background: #0b1221dd;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand { display: flex; gap: 12px; align-items: center; }
+
+    .logo {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #5da4ff, #4be1d0);
+      color: #081321;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    .brand h1 { font-size: 19px; line-height: 1.2; margin: 0; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+
+    .header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .pill {
+      font-size: 11px;
+      padding: 6px 10px;
+      border: 1px solid #286b54;
+      background: #102e29;
+      color: var(--green);
+      border-radius: 99px;
+    }
+
+    .time { font-size: 11px; color: var(--muted); }
+
+    /* ========== 3. LAYOUT & HEADLINE ========== */
+    main { max-width: 1500px; margin: auto; padding: 23px 3.5vw 40px; }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .headline {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .headline h2 { margin: 5px 0; font-size: 25px; letter-spacing: -.5px; }
+    .headline p { margin: 0; color: var(--muted); max-width: 780px; }
+
+    /* ========== 4. BUTTONS ========== */
+    .btn {
+      border: 1px solid #354967;
+      background: #1b2941;
+      color: var(--txt);
+      border-radius: 9px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .btn:hover { filter: brightness(1.15); }
+
+    .btn.primary {
+      background: linear-gradient(100deg, #559aff, #4be1d0);
+      border: 0;
+      color: #081321;
+    }
+
+    .btn.danger { border-color: #743749; color: #ff9cab; background: #321923; }
+
+    /* ========== 5. METRIC CARDS & PANELS ========== */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .metric,
+    .panel {
+      background: linear-gradient(155deg, #121d31, #0e1728);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .metric { padding: 15px 17px; }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .metric-icon { font-size: 18px; }
+
+    .metric strong {
+      font-size: 27px;
+      display: block;
+      margin: 8px 0 1px;
+      letter-spacing: -.6px;
+    }
+
+    .metric small { color: var(--muted); font-size: 11px; }
+
+    /* Colour helpers */
+    .green { color: var(--green) !important; }
+    .red   { color: var(--red) !important; }
+    .amber { color: var(--amber) !important; }
+    .blue  { color: var(--blue) !important; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(310px, .85fr);
+      gap: 15px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 17px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-head h3 { margin: 0; font-size: 14px; }
+    .panel-head span { font-size: 11px; color: var(--muted); }
+
+    /* ========== 6. TOPOLOGY MAP ========== */
+    .topology { padding: 17px; }
+
+    .legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 10px;
+      margin-bottom: 14px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+
+    .netmap {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(150px, 1fr) minmax(0, 1fr);
+      grid-template-rows: 1fr 1fr;
+      align-items: center;
+      gap: 18px 14px;
+      min-height: 300px;
+      padding: 10px 0;
+    }
+
+    .topology-links {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .wire {
+      stroke: #354863;
+      stroke-width: 3;
+      fill: none;
+      vector-effect: non-scaling-stroke;
+      transition: stroke .2s, filter .2s;
+    }
+
+    .wire.hot   { stroke: var(--cyan); filter: drop-shadow(0 0 4px #4be1d0); }
+    .wire.block { stroke: var(--red);  filter: drop-shadow(0 0 4px #ff7088); }
+
+    .node {
+      background: #101a2d;
+      border: 1px solid #344866;
+      border-radius: 13px;
+      text-align: center;
+      padding: 12px 8px;
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      transition: .25s;
+    }
+
+    .node .ico { font-size: 27px; }
+    .node b { display: block; font-size: 12px; }
+    .node small { display: block; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
+
+    .node.active  { border-color: var(--cyan); box-shadow: 0 0 0 2px #4be1d018, 0 0 24px #4be1d022; }
+    .node.blocked { border-color: var(--red);  box-shadow: 0 0 18px #ff70881c; }
+    .node.allowed { border-color: var(--green); }
+
+    /* Node positions in the grid */
+    .node.student  { grid-column: 1; grid-row: 1; }
+    .node.faculty  { grid-column: 1; grid-row: 2; }
+    .node.core     { grid-column: 2; grid-row: 1 / 3; align-self: center; background: #10223a; border-color: #3e699d; }
+    .node.library  { grid-column: 3; grid-row: 1; }
+    .node.accounts { grid-column: 3; grid-row: 2; }
+
+    .topology-foot { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+    .dept-chip {
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* ========== 7. FORMS & DECISION BOX ========== */
+    .form { padding: 16px; display: grid; gap: 11px; }
+    .field { display: grid; gap: 5px; }
+    .field label { font-size: 11px; color: #c1cee4; font-weight: 700; }
+
+    .field select,
+    .field input {
+      width: 100%;
+      border: 1px solid #344866;
+      background: #0b1424;
+      color: var(--txt);
+      border-radius: 9px;
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    .field select:focus,
+    .field input:focus { border-color: var(--blue); }
+
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .decision {
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0c1525;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .decision.allow { border-color: #286e55; background: #102d29; color: var(--green); }
+    .decision.deny  { border-color: #783848; background: #321a27; color: #ff9cab; }
+
+    /* ========== 8. POLICIES ========== */
+    .policy-list { padding: 8px 16px 14px; }
+
+    .policy {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #24324a;
+    }
+
+    .policy:last-child { border: 0; }
+    .policy b { font-size: 11px; display: block; }
+    .policy small { font-size: 10px; color: var(--muted); }
+
+    .toggle {
+      border: 1px solid #3b4e6c;
+      border-radius: 8px;
+      padding: 6px 9px;
+      background: #1c2a41;
+      color: var(--txt);
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .toggle.on { border-color: #286e55; background: #10372f; color: var(--green); }
+
+    /* ========== 9. EVENT LOG & ALERTS ========== */
+    .events { max-height: 265px; overflow: auto; padding: 6px 16px 12px; }
+
+    .event {
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      gap: 9px;
+      padding: 10px 0;
+      border-bottom: 1px solid #24324a;
+      align-items: start;
+    }
+
+    .event:last-child { border: 0; }
+
+    .event-icon {
+      width: 23px;
+      height: 23px;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      background: #183a31;
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    .event-icon.denied { background: #3a1d2a; color: var(--red); }
+    .event b { font-size: 11px; }
+    .event p { margin: 2px 0 0; color: var(--muted); font-size: 10px; }
+    .event time { font-size: 9px; color: #7386a4; white-space: nowrap; }
+
+    .alertbox {
+      margin: 13px 16px 16px;
+      border: 1px solid #7b5931;
+      background: #2d2416;
+      border-radius: 10px;
+      padding: 11px 12px;
+      color: #ffdc9b;
+      font-size: 11px;
+    }
+
+    .alertbox.clear { border-color: #245b4b; background: #102720; color: #8ee8bf; }
+
+    /* ========== 10. PERFORMANCE CHART ========== */
+    .chartbox { padding: 16px; }
+
+    .bars {
+      height: 125px;
+      display: flex;
+      gap: 14px;
+      align-items: end;
+      border-bottom: 1px solid #34445d;
+      padding: 0 8px;
+    }
+
+    .bar-wrap {
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bar {
+      width: min(40px, 75%);
+      min-height: 3px;
+      background: linear-gradient(0deg, #387ef4, #4be1d0);
+      border-radius: 6px 6px 0 0;
+      transition: height .4s;
+    }
+
+    .bar.redbar { background: linear-gradient(0deg, #b73554, #ff8393); }
+    .bar-wrap small { font-size: 10px; color: var(--muted); }
+
+    .chart-legend {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 10px;
+    }
+
+    /* ========== 11. MISC (NOTICE, TABS, FOOTER) ========== */
+    .notice { font-size: 10px; color: var(--muted); padding: 0 16px 15px; }
+    .empty { padding: 20px; color: var(--muted); font-size: 11px; }
+    .foot { text-align: center; color: #7284a1; font-size: 10px; margin-top: 17px; }
+
+    .tabs { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 15px; }
+
+    .tab {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 9px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .tab.selected { background: #1a2d49; color: var(--cyan); border-color: #3b648a; }
+
+    .section-label {
+      font-size: 10px;
+      color: var(--cyan);
+      letter-spacing: 1.4px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin: 0 0 9px;
+    }
+
+    /* ========== 12. RESPONSIVE ========== */
+    @media (max-width: 950px) {
+      .grid, .content-grid { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 540px) {
+      header { padding: 14px 4vw; }
+      .brand h1 { font-size: 15px; }
+      .time { display: none; }
+      main { padding: 18px 4vw; }
+
+      .metrics { gap: 8px; }
+      .metric { padding: 12px; }
+      .metric strong { font-size: 23px; }
+      .two { grid-template-columns: 1fr; }
+
+      .netmap {
+        grid-template-columns: minmax(0, 1fr) minmax(105px, .9fr) minmax(0, 1fr);
+        gap: 7px 3px;
+        min-height: 280px;
+      }
+
+      .node { padding: 9px 4px; }
+      .node .ico { font-size: 22px; }
+      .node b { font-size: 10px; }
+      .node small { font-size: 9px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header>
+    <div class="brand">
+      <div class="logo">SC</div>
+      <div>
+        <h1>Smart College Network</h1>
+        <p>Dynamic access control · Traffic monitoring · Threat alerts</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="time" id="clock">LOCAL DEMO</span>
+      <span class="pill">● SIMULATION ACTIVE</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== HEADLINE ========== -->
+    <div class="headline">
+      <div>
+        <div class="eyebrow">Network Operations Center / Campus Lab</div>
+        <h2>Campus network control center</h2>
+        <p>Monitor department traffic, enforce access policies, investigate repeated denied attempts and compare simulated network conditions.</p>
+      </div>
+      <button class="btn primary" id="demo">▶ Run demo scenario</button>
+    </div>
+
+    <!-- ========== METRICS ========== -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-top">Connection attempts <span class="metric-icon">⇄</span></div>
+        <strong id="mAttempts">0</strong>
+        <small>Recorded in this session</small>
+      </div>
+      <div class="metric">
+        <div class="metric-top">Allowed traffic <span class="metric-icon green">✓</span></div>
+        <strong class="green" id="mAllowed">0</strong>
+        <small>Policy-approved requests</small>
+      </div>
+      <div class="metric">
+        <div class="metric-top">Blocked traffic <span class="metric-icon red">⊘</span></div>
+        <strong class="red" id="mBlocked">0</strong>
+        <small>Denied by access policy</small>
+      </div>
+      <div class="metric">
+        <div class="metric-top">Threat alerts <span class="metric-icon amber">⚠</span></div>
+        <strong class="amber" id="mAlerts">0</strong>
+        <small>Repeated-denial rule matches</small>
+      </div>
+    </div>
+
+    <!-- ========== TABS ========== -->
+    <div class="tabs">
+      <button class="tab selected" data-tab="monitor">Network monitor</button>
+      <button class="tab" data-tab="policies">Access policies</button>
+      <button class="tab" data-tab="performance">Performance lab</button>
+    </div>
+
+    <!-- ========== VIEW 1: NETWORK MONITOR ========== -->
+    <div id="monitorView">
+      <div class="grid">
+
+        <!-- Topology -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Campus network topology</h3>
+            <span id="topoStatus">All devices online · simulated</span>
+          </div>
+          <div class="topology">
+            <div class="legend">
+              <span><i class="dot" style="background:var(--blue)"></i>CSE / Students</span>
+              <span><i class="dot" style="background:var(--purple)"></i>Faculty</span>
+              <span><i class="dot" style="background:var(--green)"></i>Approved path</span>
+              <span><i class="dot" style="background:var(--red)"></i>Blocked path</span>
+            </div>
+
+            <div class="netmap">
+              <svg class="topology-links" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+                <line class="wire" id="wire1" x1="160" y1="125" x2="500" y2="250"></line>
+                <line class="wire" id="wire2" x1="160" y1="375" x2="500" y2="250"></line>
+                <line class="wire" id="wire3" x1="500" y1="250" x2="840" y2="125"></line>
+                <line class="wire" id="wire4" x1="500" y1="250" x2="840" y2="375"></line>
+              </svg>
+
+              <div class="node student" id="nodeCse">
+                <span class="ico">💻</span>
+                <b>CSE Student Lab</b>
+                <small>VLAN 10 · 192.168.10.21</small>
+              </div>
+
+              <div class="node faculty" id="nodeFaculty">
+                <span class="ico">🧑‍🏫</span>
+                <b>Faculty Office</b>
+                <small>VLAN 20 · 192.168.20.15</small>
+              </div>
+
+              <div class="node core" id="nodeCore">
+                <span class="ico">🔀</span>
+                <b>Core L3 Switch</b>
+                <small>Inter-VLAN routing + ACL</small>
+                <small id="coreState">Policy engine ready</small>
+              </div>
+
+              <div class="node library" id="nodeLibrary">
+                <span class="ico">📚</span>
+                <b>Library Server</b>
+                <small>VLAN 30 · 192.168.30.10</small>
+              </div>
+
+              <div class="node accounts" id="nodeAccounts">
+                <span class="ico">🔒</span>
+                <b>Accounts PC</b>
+                <small>VLAN 40 · 192.168.40.12</small>
+              </div>
+            </div>
+
+            <div class="topology-foot">
+              <span class="dept-chip">VLAN 10 · CSE Students</span>
+              <span class="dept-chip">VLAN 20 · Faculty</span>
+              <span class="dept-chip">VLAN 30 · Library</span>
+              <span class="dept-chip">VLAN 40 · Accounts</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Traffic test console -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Traffic test console</h3>
+            <span>Policy engine</span>
+          </div>
+          <div class="form">
+            <div class="two">
+              <div class="field">
+                <label for="source">SOURCE DEPARTMENT</label>
+                <select id="source">
+                  <option value="cse">CSE Student Lab</option>
+                  <option value="faculty">Faculty Office</option>
+                  <option value="library">Library Server</option>
+                  <option value="accounts">Accounts PC</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="dest">DESTINATION</label>
+                <select id="dest">
+                  <option value="accounts">Accounts PC</option>
+                  <option value="library">Library Server</option>
+                  <option value="faculty">Faculty Office</option>
+                  <option value="cse">CSE Student Lab</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="protocol">PROTOCOL</label>
+              <select id="protocol">
+                <option>TCP</option>
+                <option>ICMP</option>
+                <option>HTTP</option>
+                <option>DNS</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="purpose">REQUEST / SERVICE</label>
+              <select id="purpose">
+                <option value="general">General connection</option>
+                <option value="web">Web / learning resources</option>
+                <option value="records">Restricted financial records</option>
+                <option value="library">Library catalogue</option>
+              </select>
+            </div>
+
+            <button class="btn primary" id="send">Send connection request →</button>
+            <div class="decision" id="decision">Select a source and destination, then test whether the active policy allows the connection.</div>
+          </div>
+        </section>
+      </div>
+
+      <div class="content-grid">
+
+        <!-- Event log -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Live traffic event log</h3>
+            <span id="eventCount">0 events</span>
+          </div>
+          <div class="events" id="events">
+            <div class="empty">No traffic yet. Send a request or run the demo scenario.</div>
+          </div>
+        </section>
+
+        <!-- Threat monitoring -->
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Threat monitoring</h3>
+            <span>Rule-based alerts</span>
+          </div>
+          <div id="alertList">
+            <div class="empty">No alerts. Repeated denied attempts from the same source will trigger an alert.</div>
+          </div>
+          <div id="alertSummary" class="alertbox clear">
+            Monitoring active. Alert rule: 3 denied attempts from the same source to the same destination within this demo session.
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ========== VIEW 2: ACCESS POLICIES ========== -->
+    <div id="policiesView" hidden>
+      <div class="content-grid">
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Department access control rules</h3>
+            <span>Toggle rules to test policy changes</span>
+          </div>
+          <div class="policy-list" id="policyList"></div>
+          <div class="notice">The rules below are illustrative ACL policies evaluated by the website's JavaScript simulation, not installed router ACLs.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Policy change workflow</h3>
+            <span>Administrator tools</span>
+          </div>
+          <div class="form">
+            <div class="decision">Change a rule, return to Network monitor, then send the same request again to see whether the decision changes.</div>
+            <button class="btn" id="resetPolicies">Reset all policies to defaults</button>
+            <button class="btn" id="tryRestricted">Test student → Accounts access</button>
+            <div class="decision" id="policyFeedback">Default policy: student devices cannot access restricted Accounts records.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ========== VIEW 3: PERFORMANCE LAB ========== -->
+    <div id="performanceView" hidden>
+      <div class="content-grid">
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Network performance lab</h3>
+            <span>Simulated test conditions</span>
+          </div>
+          <div class="form">
+            <div class="field">
+              <label for="condition">TEST CONDITION</label>
+              <select id="condition">
+                <option value="normal">Normal network</option>
+                <option value="delay">Introduce network delay</option>
+                <option value="loss">Introduce packet loss</option>
+                <option value="busy">High traffic load</option>
+              </select>
+            </div>
+
+            <button class="btn primary" id="runPerf">Run performance test</button>
+
+            <div class="two">
+              <div class="metric">
+                <div class="metric-top">Latency</div>
+                <strong id="latency">12 ms</strong>
+                <small>Simulated average</small>
+              </div>
+              <div class="metric">
+                <div class="metric-top">Packet loss</div>
+                <strong id="loss">0%</strong>
+                <small>Simulated test</small>
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-top">Throughput estimate</div>
+              <strong id="throughput">940 Mbps</strong>
+              <small>Illustrative model output</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h3>Performance comparison</h3>
+            <span>Latency (ms)</span>
+          </div>
+          <div class="chartbox">
+            <div class="bars">
+              <div class="bar-wrap"><div class="bar" id="barNormal" style="height:16%"></div><small>Normal</small></div>
+              <div class="bar-wrap"><div class="bar" id="barDelay" style="height:62%"></div><small>Delay</small></div>
+              <div class="bar-wrap"><div class="bar redbar" id="barLoss" style="height:42%"></div><small>Loss</small></div>
+              <div class="bar-wrap"><div class="bar redbar" id="barBusy" style="height:80%"></div><small>High load</small></div>
+            </div>
+            <div class="chart-legend">
+              <span>Lower latency is better</span>
+              <span id="perfResult">Run a test to update values</span>
+            </div>
+          </div>
+          <div class="notice">These values are generated by a simple simulation to demonstrate the impact of changed conditions; they are not measured on a physical network.</div>
+        </section>
+      </div>
+    </div>
+
+    <div class="foot">
+      Educational web simulation · No live packet capture or physical ACL changes · Suspicious activity means a configured rule matched repeated denials, not proof of an attack.
+    </div>
+  </main>
+
+  <script>
+    /* ========== 1. HELPERS & DATA ========== */
+    const $ = id => document.getElementById(id);
+
+    const depts = {
+      cse:      { name: "CSE Student Lab", ip: "192.168.10.21", vlan: 10 },
+      faculty:  { name: "Faculty Office",  ip: "192.168.20.15", vlan: 20 },
+      library:  { name: "Library Server",  ip: "192.168.30.10", vlan: 30 },
+      accounts: { name: "Accounts PC",     ip: "192.168.40.12", vlan: 40 }
+    };
+
+    const defaultPolicies = [
+      { id: "studentAccounts",        name: "Students → Accounts",     desc: "Block access to financial records",              src: "cse",      dst: "accounts", purpose: "records", enabled: true },
+      { id: "studentGeneralAccounts", name: "Students → Accounts PC",  desc: "Deny all direct student connections to Accounts", src: "cse",      dst: "accounts", purpose: "*",       enabled: true },
+      { id: "studentLibrary",         name: "Students → Library",      desc: "Allow catalogue and learning resources",         src: "cse",      dst: "library",  purpose: "*",       enabled: true },
+      { id: "facultyAccounts",        name: "Faculty → Accounts",      desc: "Allow approved faculty financial workflow",      src: "faculty",  dst: "accounts", purpose: "*",       enabled: true },
+      { id: "libraryAccounts",        name: "Library → Accounts",      desc: "Deny direct server-to-Accounts access",          src: "library",  dst: "accounts", purpose: "*",       enabled: true },
+      { id: "accountsAll",            name: "Accounts → Departments",  desc: "Allow Accounts-initiated approved traffic",      src: "accounts", dst: "*",        purpose: "*",       enabled: true }
+    ];
+
+    /* ========== 2. STATE ========== */
+    let policies = structuredClone(defaultPolicies);
+    let events = [];
+    let denials = {};
+    let alerts = [];
+    let attempts = 0, allowed = 0, blocked = 0;
+
+    /* ========== 3. POLICY ENGINE ========== */
+    function policyDecision(s, d, purpose) {
+      if (s === d) {
+        return { ok: false, reason: "Source and destination are the same endpoint; choose another department." };
+      }
+
+      if (s === "cse" && d === "accounts" &&
+          policies.some(p => p.enabled && (p.id === "studentAccounts" || p.id === "studentGeneralAccounts"))) {
+        return {
+          ok: false,
+          reason: purpose === "records"
+            ? "ACL denies student access to restricted financial records."
+            : "ACL denies direct student access to the Accounts department."
+        };
+      }
+
+      if (s === "library" && d === "accounts" &&
+          policies.some(p => p.enabled && p.id === "libraryAccounts")) {
+        return { ok: false, reason: "Server isolation rule blocks direct Library-to-Accounts connections." };
+      }
+
+      if (s === "faculty" && d === "accounts")  return { ok: true, reason: "Faculty-to-Accounts workflow is permitted by the active policy." };
+      if (s === "cse" && d === "library")       return { ok: true, reason: "Student access to library learning resources is permitted." };
+      if (s === "cse" && d === "faculty")       return { ok: true, reason: "Faculty services are available to students under campus policy." };
+      if (s === "accounts")                     return { ok: true, reason: "Accounts-initiated connection is permitted by the active policy." };
+      if (s === "faculty" && d === "library")   return { ok: true, reason: "Faculty access to library resources is permitted." };
+      if (s === "library" && d === "faculty")   return { ok: true, reason: "Library-to-faculty service is permitted." };
+
+      return { ok: true, reason: "No deny rule matches; default campus policy permits this connection." };
+    }
+
+    /* ========== 4. RENDERING ========== */
+    function renderMetrics() {
+      $("mAttempts").textContent = attempts;
+      $("mAllowed").textContent = allowed;
+      $("mBlocked").textContent = blocked;
+      $("mAlerts").textContent = alerts.length;
+      $("eventCount").textContent = events.length + " events";
+    }
+
+    function renderEvents() {
+      $("events").innerHTML = events.length
+        ? events.map(e => `
+            <div class="event">
+              <div class="event-icon ${e.ok ? "" : "denied"}">${e.ok ? "✓" : "⊘"}</div>
+              <div>
+                <b>${e.ok ? "ALLOWED" : "BLOCKED"} · ${depts[e.s].name} → ${depts[e.d].name}</b>
+                <p>${e.proto} · ${depts[e.s].ip} → ${depts[e.d].ip}<br>${e.reason}</p>
+              </div>
+              <time>${e.time}</time>
+            </div>`).join("")
+        : '<div class="empty">No traffic yet.</div>';
+    }
+
+    function renderAlerts() {
+      $("alertList").innerHTML = alerts.length
+        ? alerts.map(a => `<div class="alertbox"><b>⚠ ${a.text}</b><br>${a.detail}</div>`).join("")
+        : '<div class="empty">No alerts. Repeated denied attempts from the same source will trigger an alert.</div>';
+
+      $("alertSummary").className = "alertbox " + (alerts.length ? "" : "clear");
+      $("alertSummary").textContent = alerts.length
+        ? `${alerts.length} alert(s) raised by the configured repeated-denial rule.`
+        : "Monitoring active. Alert rule: 3 denied attempts from the same source to the same destination within this demo session.";
+    }
+
+    function renderPolicies() {
+      $("policyList").innerHTML = policies.map(p => `
+        <div class="policy">
+          <div><b>${p.name}</b><small>${p.desc}</small></div>
+          <button class="toggle ${p.enabled ? "on" : ""}" data-id="${p.id}">
+            ${p.enabled ? "● ENABLED" : "○ DISABLED"}
+          </button>
+        </div>`).join("");
+
+      $("policyList").querySelectorAll("button").forEach(b =>
+        b.addEventListener("click", () => {
+          const p = policies.find(x => x.id === b.dataset.id);
+          p.enabled = !p.enabled;
+          renderPolicies();
+          $("policyFeedback").textContent =
+            `${p.name}: policy ${p.enabled ? "enabled" : "disabled"}. Return to Network monitor and repeat the same request to observe the decision.`;
+        })
+      );
+    }
+
+    function updateTopology(s, d, ok) {
+      const nodeMap = { cse: "nodeCse", faculty: "nodeFaculty", library: "nodeLibrary", accounts: "nodeAccounts" };
+
+      ["nodeCse", "nodeFaculty", "nodeLibrary", "nodeAccounts", "nodeCore"]
+        .forEach(id => $(id).classList.remove("active", "blocked", "allowed"));
+
+      $(nodeMap[s]).classList.add("active");
+      $(nodeMap[d]).classList.add(ok ? "allowed" : "blocked");
+      $("nodeCore").classList.add(ok ? "allowed" : "blocked");
+
+      ["wire1", "wire2", "wire3", "wire4"].forEach(id => {
+        $(id).classList.remove("hot", "block");
+        $(id).classList.add(ok ? "hot" : "block");
+      });
+
+      $("coreState").textContent = ok ? "ACL permitted flow" : "ACL denied flow";
+      $("topoStatus").textContent = ok ? "Approved path highlighted" : "Denied path highlighted";
+    }
+
+    /* ========== 5. TRAFFIC EVENTS ========== */
+    function addEvent(s, d, proto, ok, reason) {
+      const e = { s, d, proto, ok, reason, time: new Date().toLocaleTimeString() };
+      events.unshift(e);
+      if (events.length > 40) events.pop();
+      renderEvents();
+
+      attempts++;
+      if (ok) allowed++; else blocked++;
+
+      if (!ok) {
+        const key = s + "-" + d;
+        denials[key] = (denials[key] || 0) + 1;
+
+        if (denials[key] === 3) {
+          alerts.unshift({
+            key,
+            text: `Repeated denied attempts: ${depts[s].name} → ${depts[d].name}`,
+            detail: "3 denied attempts recorded. Investigate the source and review the access policy."
+          });
+          renderAlerts();
+        }
+      }
+      renderMetrics();
+    }
+
+    function sendRequest(
+      s = $("source").value,
+      d = $("dest").value,
+      proto = $("protocol").value,
+      purpose = $("purpose").value
+    ) {
+      const result = policyDecision(s, d, purpose);
+      updateTopology(s, d, result.ok);
+
+      $("decision").className = "decision " + (result.ok ? "allow" : "deny");
+      $("decision").innerHTML = `
+        <b>${result.ok ? "✓ CONNECTION ALLOWED" : "⊘ CONNECTION BLOCKED"}</b><br>
+        ${result.reason}<br><br>
+        <span style="color:var(--muted)">
+          Source: ${depts[s].ip} · Destination: ${depts[d].ip} · Protocol: ${proto} · VLAN ${depts[s].vlan} → VLAN ${depts[d].vlan}
+        </span>`;
+
+      addEvent(s, d, proto, result.ok, result.reason);
+    }
+
+    /* ========== 6. EVENT LISTENERS ========== */
+    // Send request
+    $("send").addEventListener("click", () => sendRequest());
+
+    // Demo scenario
+    $("demo").addEventListener("click", () => {
+      const seq = [
+        ["cse", "library", "TCP", "library"],
+        ["faculty", "accounts", "TCP", "general"],
+        ["cse", "accounts", "TCP", "records"],
+        ["cse", "accounts", "TCP", "records"],
+        ["cse", "accounts", "TCP", "records"]
+      ];
+
+      seq.forEach((x, i) => setTimeout(() => {
+        $("source").value = x[0];
+        $("dest").value = x[1];
+        $("protocol").value = x[2];
+        $("purpose").value = x[3];
+        sendRequest(...x);
+      }, i * 450));
+    });
+
+    // Policy buttons
+    $("resetPolicies").addEventListener("click", () => {
+      policies = structuredClone(defaultPolicies);
+      renderPolicies();
+      $("policyFeedback").textContent = "Default policies restored.";
+    });
+
+    $("tryRestricted").addEventListener("click", () => {
+      $("source").value = "cse";
+      $("dest").value = "accounts";
+      $("purpose").value = "records";
+      document.querySelector('[data-tab="monitor"]').click();
+      sendRequest("cse", "accounts", "TCP", "records");
+    });
+
+    // Tabs
+    document.querySelectorAll(".tab").forEach(b =>
+      b.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(x => x.classList.toggle("selected", x === b));
+        ["monitor", "policies", "performance"].forEach(v => $(v + "View").hidden = v !== b.dataset.tab);
+      })
+    );
+
+    /* ========== 7. PERFORMANCE LAB ========== */
+    const perf = {
+      normal: { lat: 12,  loss: 0, tp: 940 },
+      delay:  { lat: 85,  loss: 0, tp: 820 },
+      loss:   { lat: 48,  loss: 8, tp: 620 },
+      busy:   { lat: 130, loss: 3, tp: 410 }
+    };
+
+    $("runPerf").addEventListener("click", () => {
+      const v = perf[$("condition").value];
+
+      $("latency").textContent = v.lat + " ms";
+      $("loss").textContent = v.loss + "%";
+      $("throughput").textContent = v.tp + " Mbps";
+
+      $("barNormal").style.height = (perf.normal.lat / 150 * 100) + "%";
+      $("barDelay").style.height  = (perf.delay.lat  / 150 * 100) + "%";
+      $("barLoss").style.height   = (perf.loss.lat   / 150 * 100) + "%";
+      $("barBusy").style.height   = (perf.busy.lat   / 150 * 100) + "%";
+
+      $("perfResult").textContent = "Test updated";
+    });
+
+    /* ========== 8. INITIAL RENDER ========== */
+    $("clock").textContent = new Date().toLocaleString();
+    renderPolicies();
+    renderMetrics();
+    renderEvents();
+    renderAlerts();
+  </script>
+</body>
+
+</html>
